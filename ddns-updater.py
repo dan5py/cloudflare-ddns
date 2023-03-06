@@ -102,7 +102,7 @@ def parse_args():
         default=ttl,
     )
     parser.add_argument(
-        "-p", "--proxied", action="store_true", help="Enable Cloudflare proxy", default=True
+        "-p", "--proxied", action="store_true", help="Enable Cloudflare proxy", default=False
     )
 
     ## Log arguments

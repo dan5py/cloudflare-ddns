@@ -38,7 +38,7 @@ You can either use the cli arguments or hardcode those information directly in t
 | -t --token    |    /     | Your API token                                | No       |
 | -z --zone     |    /     | The target zone ID                            | No       |
 | -T --ttl      | 1 (auto) | TTL of the record                             | No       |
-| -p --proxied  |   true   | Enable Cloudflare proxy                       | No       |
+| -p --proxied  |  false   | Enable Cloudflare proxy                       | No       |
 | -l --log-file |    /     | Path of the log file                          | No       |
 | -v --verbose  |  false   | Enable verbose logging                        | No       |
 | -h --help     |    /     | Show help message                             | No       |
