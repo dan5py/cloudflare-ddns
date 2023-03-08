@@ -42,6 +42,7 @@ You can either use the cli arguments or hardcode those information directly in t
 | -l --log-file |    /     | Path of the log file                          | No       |
 | -v --verbose  |  false   | Enable verbose logging                        | No       |
 | -h --help     |    /     | Show help message                             | No       |
+| -f --force    |  false   | Force update                                  | No       |
 
 ## License
 

@@ -104,6 +104,13 @@ def parse_args():
     parser.add_argument(
         "-p", "--proxied", action="store_true", help="Enable Cloudflare proxy", default=False
     )
+    parser.add_argument(
+        "-f",
+        "--force",
+        action="store_true",
+        help="Force update even if the IP is the same",
+        default=False,
+    )
 
     ## Log arguments
     parser.add_argument(
@@ -290,7 +297,7 @@ def main():
 
     record = get_record(args)
     public_ip = get_public_ip()
-    if record["content"] == public_ip:
+    if record["content"] == public_ip and not args.force:
         Logger.info(f"Record {args.record} is already up to date ({public_ip})")
         exit(0)
 
