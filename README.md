@@ -1,6 +1,6 @@
 # Cloudflare DNS Record Updater
 
-Update your DNS Record IP with this simple Python script.
+Update your DNS Records IPs with this simple Python script.
 
 Cloudflare API Reference: <https://developers.cloudflare.com/api/>
 
@@ -18,6 +18,12 @@ pip install -r requirements.txt
 python ddns-updater.py -r my.example.com
 ```
 
+### Multiple Records
+
+```bash
+python ddns-updater.py -r my.example.com my2.example.com
+```
+
 ### Settings
 
 In order to update the DNS record you need to provide:
@@ -33,7 +39,7 @@ You can either use the cli arguments or hardcode those information directly in t
 | Argument      | Default  | Description                                   | Required |
 | :------------ | :------: | --------------------------------------------- | :------- |
 | -e --email    |    /     | The account email used to login to Cloudflare | No       |
-| -r --record   |    /     | The name of the record to update              | Yes      |
+| -r --records  |    /     | The name of the record(s) to update           | Yes      |
 | -s --scoped   |  false   | Use scoped API token                          | No       |
 | -t --token    |    /     | Your API token                                | No       |
 | -z --zone     |    /     | The target zone ID                            | No       |

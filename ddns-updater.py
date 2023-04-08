@@ -86,7 +86,7 @@ def parse_args():
         help="The account email used to login to Cloudflare",
         default=email,
     )
-    parser.add_argument("-r", "--record", required=True, help="The name of record to update")
+    parser.add_argument("-r", "--records", required=True, nargs="+", help="The name of record(s) to update")
     parser.add_argument("-s", "--scoped", action="store_true", help="Use scoped API token")
     parser.add_argument(
         "-t", "--token", required=True if token is None else False, help="API token", default=token
@@ -264,7 +264,7 @@ def update_record(args, record, public_ip):
     return res["result"], res["success"]
 
 
-def log_update(args, record, filepath):
+def log_update(args, record, filepath, mode="w"):
     """Log the update to a file
 
     Args:
@@ -272,10 +272,11 @@ def log_update(args, record, filepath):
         record (dict): The record information
         filepath (str): The path to the log file
     """
+
     Logger.log(f"Saving update of {args.record} in {filepath}")
 
     try:
-        with open(filepath, "w") as f:
+        with open(filepath, mode) as f:
             to_write = file_format.format(
                 record=args.record,
                 ip=record["content"],
@@ -295,23 +296,25 @@ def main():
     ## Set verbose
     verbose = args.verbose
 
-    record = get_record(args)
-    public_ip = get_public_ip()
-    if record["content"] == public_ip and not args.force:
-        Logger.info(f"Record {args.record} is already up to date ({public_ip})")
-        exit(0)
+    for i, record_name in enumerate(args.records):
+        args.record = record_name
+        record = get_record(args)
+        public_ip = get_public_ip()
+        if record["content"] == public_ip and not args.force:
+            Logger.info(f"Record {record_name} is already up to date ({public_ip})")
+            continue
 
-    Logger.log(f"Updating record {args.record} to {public_ip}")
-    record, success = update_record(args, record, public_ip)
+        Logger.log(f"Updating record {record_name} to {public_ip}")
+        record, success = update_record(args, record, public_ip)
 
-    if success:
-        Logger.info(f"Updated successfully!")
-    else:
-        Logger.error("Unable to update record")
-        exit(1)
+        if success:
+            Logger.info(f"Updated {record_name} successfully!")
+        else:
+            Logger.error(f"Unable to update {record_name}")
+            continue
 
-    if args.log_file:
-        log_update(args, record, args.log_file)
+        if args.log_file:
+            log_update(args, record, args.log_file, mode="w")
 
 
 if __name__ == "__main__":
